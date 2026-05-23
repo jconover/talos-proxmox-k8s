@@ -1,0 +1,9 @@
+# IP range MetalLB will hand out to LoadBalancer services.
+# MUST be unused on your LAN, same subnet as the Talos nodes.
+metallb_address_pool = ["192.168.1.200-192.168.1.220"]
+
+cilium_version   = "1.16.5"
+metallb_version  = "0.14.9"
+longhorn_version = "1.7.2"
+
+longhorn_replica_count = 2

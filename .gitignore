@@ -1,0 +1,31 @@
+# Terraform
+.terraform/
+# NB: keep .terraform.lock.hcl committed — it pins provider versions.
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.tfvars.example
+crash.log
+crash.*.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+.terraformrc
+terraform.rc
+
+# Secrets / generated
+.envrc
+talosconfig
+kubeconfig
+*.pem
+secrets/
+
+# Editor
+.idea/
+.vscode/
+*.swp
+.DS_Store
+
+# OMC runtime state
+.omc/state/

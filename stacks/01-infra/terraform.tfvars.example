@@ -1,0 +1,65 @@
+# ─── Talos image ─────────────────────────────────────────────────────────────
+talos_version      = "v1.9.4"
+talos_schematic_id = "REPLACE_WITH_64_CHAR_HEX_FROM_FACTORY_TALOS_DEV"
+
+image_datastore_id  = "local"
+image_download_node = "pve-01" # any one of your Proxmox nodes
+
+# ─── Network ─────────────────────────────────────────────────────────────────
+network_bridge  = "vmbr0"
+network_cidr    = "192.168.1.0/24"
+network_gateway = "192.168.1.1"
+nameservers     = ["1.1.1.1", "8.8.8.8"]
+
+# ─── Control planes (3x — one per Beelink, pve-02/03/04 → local-zfs) ─────────
+control_planes = {
+  "vex-cp-01" = {
+    proxmox_node = "pve-02"
+    datastore_id = "local-zfs"
+    ip           = "192.168.1.101"
+    vmid         = 101
+  }
+  "vex-cp-02" = {
+    proxmox_node = "pve-03"
+    datastore_id = "local-zfs"
+    ip           = "192.168.1.102"
+    vmid         = 102
+  }
+  "vex-cp-03" = {
+    proxmox_node = "pve-04"
+    datastore_id = "local-zfs"
+    ip           = "192.168.1.103"
+    vmid         = 103
+  }
+}
+
+# CP defaults (overridable in control_planes if needed):
+cp_vm_spec = {
+  cpu_cores = 4
+  memory_mb = 8192
+  disk_gb   = 50
+}
+
+# ─── Workers ─────────────────────────────────────────────────────────────────
+# pve-01 is the i5-11400F box (Debian-then-Proxmox, local-lvm 1TB).
+# pve-05 is the Minisforum (Ryzen 9 6900HX, local-zfs, beefiest CPU).
+workers = {
+  "vex-wk-01" = {
+    proxmox_node = "pve-01"
+    datastore_id = "local-lvm"
+    ip           = "192.168.1.111"
+    vmid         = 111
+    cpu_cores    = 4
+    memory_mb    = 16384
+    disk_gb      = 200
+  }
+  "vex-wk-02" = {
+    proxmox_node = "pve-05"
+    datastore_id = "local-zfs"
+    ip           = "192.168.1.112"
+    vmid         = 112
+    cpu_cores    = 8
+    memory_mb    = 24576
+    disk_gb      = 300
+  }
+}

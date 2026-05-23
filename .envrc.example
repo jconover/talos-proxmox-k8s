@@ -1,0 +1,17 @@
+# Copy to .envrc and `direnv allow`. Never commit the real .envrc.
+#
+# Proxmox API endpoint, e.g. https://pve-01.lan:8006/
+export PROXMOX_VE_ENDPOINT="https://pve-01.lan:8006/"
+
+# Self-signed cert? Leave true. If you've added a real cert, set to false.
+export PROXMOX_VE_INSECURE="true"
+
+# API token created via `pveum` (see docs/01-proxmox-setup.md).
+# Format: user@realm!tokenid
+export PROXMOX_VE_API_TOKEN="terraform@pve!tf=00000000-0000-0000-0000-000000000000"
+
+# SSH user for resources that need it (e.g. download_file). Must be a
+# Proxmox host OS user with sudo/NOPASSWD for `pvesh`, `qm`, `pvesm`.
+# bpg/proxmox uses SSH-agent or ~/.ssh/id_ed25519 by default.
+export PROXMOX_VE_SSH_USERNAME="root"
+export PROXMOX_VE_SSH_AGENT="true"

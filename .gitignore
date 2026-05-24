@@ -27,5 +27,10 @@ secrets/
 *.swp
 .DS_Store
 
-# OMC runtime state
-.omc/state/
+# OMC runtime state (top-level and per-stack)
+.omc/
+**/.omc/
+
+# Terraform saved plans
+tfplan
+**/tfplan

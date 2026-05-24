@@ -41,8 +41,9 @@ cp_vm_spec = {
 }
 
 # ─── Workers ─────────────────────────────────────────────────────────────────
-# pve-01 is the i5-11400F box (Debian-then-Proxmox, local-lvm 1TB).
-# pve-05 is the Minisforum (Ryzen 9 6900HX, local-zfs, beefiest CPU).
+# Both workers run on LVM-thin: pve-01 (i5-11400F, Debian-then-Proxmox) and
+# pve-05 (Minisforum Ryzen 9 6900HX, Proxmox installer default = ext4/LVM).
+# Only pve-02/03/04 (Beelinks) have ZFS.
 workers = {
   "vex-wk-01" = {
     proxmox_node = "pve-01"
@@ -55,7 +56,7 @@ workers = {
   }
   "vex-wk-02" = {
     proxmox_node = "pve-05"
-    datastore_id = "local-zfs"
+    datastore_id = "local-lvm"
     ip           = "192.168.1.112"
     vmid         = 112
     cpu_cores    = 8

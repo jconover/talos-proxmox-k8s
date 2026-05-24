@@ -13,7 +13,7 @@ collective). Proxmox nodes kept their `pve-XX` names from the original install.
 | control-plane| `pve-03`     | Beelink Ryzen 7 6800U| local-zfs  | `vex-cp-02`  |
 | control-plane| `pve-04`     | Beelink Ryzen 7 6800U| local-zfs  | `vex-cp-03`  |
 | worker       | `pve-01`     | Intel i5-11400F + GTX 1660 Ti | local-lvm | `vex-wk-01`  |
-| worker       | `pve-05`     | Minisforum Ryzen 9 6900HX | local-zfs | `vex-wk-02`  |
+| worker       | `pve-05`     | Minisforum Ryzen 9 6900HX | local-lvm | `vex-wk-02`  |
 
 - 3 control planes on the identical Beelinks give you an HA etcd quorum.
 - 2 workers carry the load (Minisforum is the beefiest box).

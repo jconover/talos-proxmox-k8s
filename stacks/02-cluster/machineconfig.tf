@@ -32,9 +32,12 @@ data "talos_machine_configuration" "cp" {
           extraKernelArgs = []
         }
         network = {
-          hostname = each.key
           interfaces = [{
-            interface = "eth0"
+            # Talos uses predictable interface names (PCI slot-derived). For
+            # bpg/proxmox VMs with a single virtio NIC, the name is `ens18`,
+            # not `eth0`. Hardcoding `eth0` causes the VIP operator to bind
+            # to a nonexistent interface and silently fail.
+            interface = "ens18"
             addresses = ["${each.value.ip}/${split("/", local.network.cidr)[1]}"]
             routes = [{
               network = "0.0.0.0/0"
@@ -59,7 +62,17 @@ data "talos_machine_configuration" "cp" {
           allowSchedulingOnControlPlanes = false
         },
       )
-    })
+    }),
+    # Replace the auto-generated HostnameConfig (auto: stable) with an
+    # explicit name. Talos 1.13 rejects setting hostname in both the legacy
+    # v1alpha1 machine.network.hostname and the new HostnameConfig doc.
+    # Hostname intentionally not patched here. siderolabs/talos provider 0.11
+    # auto-generates `kind: HostnameConfig / auto: stable` and there's no
+    # strategic-merge or JSON-patch syntax that cleanly replaces it without
+    # tripping "auto and hostname cannot be set at the same time" or being
+    # rejected by the patcher. Talos will derive a stable hostname from the
+    # machine ID at first boot. Set human-friendly names post-bootstrap with
+    # `talosctl edit machineconfig --nodes <ip>` if desired.
   ]
 }
 
@@ -83,9 +96,12 @@ data "talos_machine_configuration" "worker" {
           wipe  = false
         }
         network = {
-          hostname = each.key
           interfaces = [{
-            interface = "eth0"
+            # Talos uses predictable interface names (PCI slot-derived). For
+            # bpg/proxmox VMs with a single virtio NIC, the name is `ens18`,
+            # not `eth0`. Hardcoding `eth0` causes the VIP operator to bind
+            # to a nonexistent interface and silently fail.
+            interface = "ens18"
             addresses = ["${each.value.ip}/${split("/", local.network.cidr)[1]}"]
             routes = [{
               network = "0.0.0.0/0"
@@ -95,7 +111,14 @@ data "talos_machine_configuration" "worker" {
           nameservers = local.network.nameservers
         }
       }
-    })
+    }),
+    # Hostname intentionally not patched here. siderolabs/talos provider 0.11
+    # auto-generates `kind: HostnameConfig / auto: stable` and there's no
+    # strategic-merge or JSON-patch syntax that cleanly replaces it without
+    # tripping "auto and hostname cannot be set at the same time" or being
+    # rejected by the patcher. Talos will derive a stable hostname from the
+    # machine ID at first boot. Set human-friendly names post-bootstrap with
+    # `talosctl edit machineconfig --nodes <ip>` if desired.
   ]
 }
 

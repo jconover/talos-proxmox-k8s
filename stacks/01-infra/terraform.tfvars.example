@@ -1,5 +1,5 @@
 # ─── Talos image ─────────────────────────────────────────────────────────────
-talos_version      = "v1.9.4"
+talos_version      = "v1.13.2"
 talos_schematic_id = "REPLACE_WITH_64_CHAR_HEX_FROM_FACTORY_TALOS_DEV"
 
 image_datastore_id  = "local"

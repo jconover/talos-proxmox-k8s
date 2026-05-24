@@ -18,7 +18,7 @@ variable "cluster_endpoint_vip" {
 variable "kubernetes_version" {
   description = "Kubernetes version (must be one supported by the chosen talos_version)."
   type        = string
-  default     = "1.31.4"
+  default     = "1.36.0"
 }
 
 variable "install_disk" {

@@ -1,7 +1,7 @@
 variable "talos_version" {
-  description = "Talos Linux version, e.g. v1.9.4. Must match a build available on factory.talos.dev."
+  description = "Talos Linux version, e.g. v1.13.2. Must match a build available on factory.talos.dev."
   type        = string
-  default     = "v1.9.4"
+  default     = "v1.13.2"
 }
 
 variable "talos_schematic_id" {

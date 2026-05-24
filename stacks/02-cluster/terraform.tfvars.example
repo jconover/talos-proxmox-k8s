@@ -1,6 +1,6 @@
 cluster_name         = "vex"
 cluster_endpoint_vip = "192.168.1.100" # MUST be unused on your LAN, same subnet as the nodes
-kubernetes_version   = "1.31.4"
+kubernetes_version   = "1.36.0"
 
 # Talos defaults to /dev/sda for a single virtio-scsi disk — matches stack/01.
 install_disk = "/dev/sda"

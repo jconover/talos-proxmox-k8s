@@ -1,6 +1,6 @@
 # Cilium replaces flannel (CNI=none in 02-cluster) and kube-proxy.
 # Values follow the Talos-recommended Cilium config:
-#   https://www.talos.dev/v1.9/kubernetes-guides/network/deploying-cilium/
+#   https://www.talos.dev/v1.13/kubernetes-guides/network/deploying-cilium/
 resource "helm_release" "cilium" {
   name             = "cilium"
   namespace        = "kube-system"

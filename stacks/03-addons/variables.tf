@@ -7,19 +7,19 @@ variable "cluster_state_path" {
 variable "cilium_version" {
   description = "Cilium chart version."
   type        = string
-  default     = "1.16.5"
+  default     = "1.19.4"
 }
 
 variable "metallb_version" {
   description = "MetalLB chart version."
   type        = string
-  default     = "0.14.9"
+  default     = "0.16.0"
 }
 
 variable "longhorn_version" {
   description = "Longhorn chart version."
   type        = string
-  default     = "1.7.2"
+  default     = "1.11.2"
 }
 
 variable "metallb_address_pool" {

@@ -19,6 +19,23 @@ resource "helm_release" "metallb" {
   wait       = true
   timeout    = 600
 
+  # MetalLB 0.16's frr-k8s subchart references prometheus.serviceMonitor.enabled
+  # with no default, so installs without an explicit value error at templating.
+  # Disable Prometheus integration (we're not running Prometheus yet).
+  values = [yamlencode({
+    prometheus = {
+      serviceMonitor = { enabled = false }
+      podMonitor     = { enabled = false }
+    }
+    frr-k8s = {
+      enabled = false
+      prometheus = {
+        serviceMonitor = { enabled = false }
+        podMonitor     = { enabled = false }
+      }
+    }
+  })]
+
   depends_on = [helm_release.cilium]
 }
 

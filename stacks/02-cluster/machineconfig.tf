@@ -66,13 +66,17 @@ data "talos_machine_configuration" "cp" {
     # Replace the auto-generated HostnameConfig (auto: stable) with an
     # explicit name. Talos 1.13 rejects setting hostname in both the legacy
     # v1alpha1 machine.network.hostname and the new HostnameConfig doc.
-    # Hostname intentionally not patched here. siderolabs/talos provider 0.11
-    # auto-generates `kind: HostnameConfig / auto: stable` and there's no
-    # strategic-merge or JSON-patch syntax that cleanly replaces it without
-    # tripping "auto and hostname cannot be set at the same time" or being
-    # rejected by the patcher. Talos will derive a stable hostname from the
-    # machine ID at first boot. Set human-friendly names post-bootstrap with
-    # `talosctl edit machineconfig --nodes <ip>` if desired.
+    # Hostname patch: setting `auto: "off"` disables the provider's auto
+    # `auto: stable` derivation and lets `hostname:` take effect. The earlier
+    # mistake was patching with only `hostname:` (strategic merge kept the
+    # `auto: stable` line and Talos rejects both being set).
+    <<-EOT
+    apiVersion: v1alpha1
+    kind: HostnameConfig
+    auto: "off"
+    hostname: ${each.key}
+    EOT
+    ,
   ]
 }
 
@@ -112,13 +116,17 @@ data "talos_machine_configuration" "worker" {
         }
       }
     }),
-    # Hostname intentionally not patched here. siderolabs/talos provider 0.11
-    # auto-generates `kind: HostnameConfig / auto: stable` and there's no
-    # strategic-merge or JSON-patch syntax that cleanly replaces it without
-    # tripping "auto and hostname cannot be set at the same time" or being
-    # rejected by the patcher. Talos will derive a stable hostname from the
-    # machine ID at first boot. Set human-friendly names post-bootstrap with
-    # `talosctl edit machineconfig --nodes <ip>` if desired.
+    # Hostname patch: setting `auto: "off"` disables the provider's auto
+    # `auto: stable` derivation and lets `hostname:` take effect. The earlier
+    # mistake was patching with only `hostname:` (strategic merge kept the
+    # `auto: stable` line and Talos rejects both being set).
+    <<-EOT
+    apiVersion: v1alpha1
+    kind: HostnameConfig
+    auto: "off"
+    hostname: ${each.key}
+    EOT
+    ,
   ]
 }
 

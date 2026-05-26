@@ -40,7 +40,12 @@ resource "helm_release" "cilium" {
     hubble = {
       enabled = true
       relay   = { enabled = true }
-      ui      = { enabled = true }
+      ui = {
+        enabled = true
+        # Expose via MetalLB so the UI is reachable on the LAN without
+        # kubectl port-forward. The IP comes from the MetalLB pool.
+        service = { type = "LoadBalancer" }
+      }
     }
   })]
 }

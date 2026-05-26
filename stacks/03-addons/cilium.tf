@@ -37,6 +37,14 @@ resource "helm_release" "cilium" {
       hostRoot  = "/sys/fs/cgroup"
     }
 
+    # Bypass VLAN filtering. The TP-Link Deco mesh emits VLAN-tagged frames
+    # (mesh discovery, IGMP snooping); Cilium's BPF drops them by default and
+    # the connectivity test treats every drop as a failure. Bypassing is safe
+    # because we don't run any VLAN-aware workloads in this cluster.
+    bpf = {
+      vlanBypass = [0]
+    }
+
     hubble = {
       enabled = true
       relay   = { enabled = true }
